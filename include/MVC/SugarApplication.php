@@ -73,6 +73,12 @@ class SugarApplication
      */
     public function execute()
     {
+/*
+        foreach (apache_request_headers() as $name => $value) {
+            $GLOBALS['log']->debug("header t817332 $name: $value");
+        }
+*/
+
         global $sugar_config;
         if (!empty($sugar_config['default_module'])) {
             $this->default_module = $sugar_config['default_module'];
@@ -81,6 +87,7 @@ class SugarApplication
         if (!empty($_REQUEST['module'])) {
             $module = $_REQUEST['module'];
         }
+
         insert_charset_header();
         $this->setupPrint();
         $this->controller = ControllerFactory::getController($module);
@@ -99,7 +106,10 @@ class SugarApplication
         $this->loadGlobals();
         $this->setupResourceManagement($module);
         $this->controller->execute();
+
+        $GLOBALS['log']->debug("before cleanup sess unique key 1" . $_SESSION['unique_key']);        
         sugar_cleanup();
+        $GLOBALS['log']->debug("before cleanup sess unique key 2" . $_SESSION['unique_key']);
     }
 
     /**
@@ -113,10 +123,24 @@ class SugarApplication
         $server_unique_key = (isset($sugar_config['unique_key'])) ? $sugar_config['unique_key'] : '';
         $allowed_actions = (!empty($this->controller->allowed_actions)) ? $this->controller->allowed_actions : $allowed_actions = array('Authenticate', 'Login', 'LoggedOut');
 
-        $authController = new AuthenticationController();
+        $GLOBALS['log']->debug("controller module " . $this->controller->module);
+        $GLOBALS['log']->debug("controller action " . $this->controller->action);
+        $GLOBALS['log']->debug("request module " . $_REQUEST['module']);
+        $GLOBALS['log']->debug("request action " . $_REQUEST['action']);
+
+        $GLOBALS['log']->debug("loadUser sugar unique key " . $sugar_config['unique_key']);
+        $GLOBALS['log']->debug("loadUser sess unique key " . $_SESSION['unique_key']);
+
+        // Modif T817332
+        $authController = new AuthenticationController("Oauth2TokenAuthenticate");
+        //$GLOBALS['log']->debug("controller auth user $authController->authController->getNameOfClass()");
+
+        $GLOBALS['log']->debug("SugarApplication 1 session: " . $_SESSION['oauth2Name']);
 
         if (($user_unique_key != $server_unique_key) && (!in_array($this->controller->action, $allowed_actions)) &&
                 (!isset($_SESSION['login_error']))) {
+            $GLOBALS['log']->debug("SugarApplication 2");
+
             session_destroy();
 
             if (!empty($this->controller->action)) {
@@ -143,8 +167,12 @@ class SugarApplication
                 }
             }
 
+            $GLOBALS['log']->debug("SugarApplication 3");
+
             $authController->authController->redirectToLogin($this);
         }
+
+        $GLOBALS['log']->debug("SugarApplication 4 " . $_SESSION['authenticated_user_id']);
 
         $GLOBALS['current_user'] = BeanFactory::newBean('Users');
         if (isset($_SESSION['authenticated_user_id'])) {
@@ -158,6 +186,26 @@ class SugarApplication
             }//fi
         } elseif (!($this->controller->module == 'Users' && in_array($this->controller->action, $allowed_actions))) {
             session_destroy();
+
+            foreach (apache_request_headers() as $name => $value) {
+                $GLOBALS['log']->debug("header apache $name: $value");
+
+                if ($name == "x-id-token") {            
+                    $GLOBALS['log']->debug("header apache x-id-token found !");
+    
+                    $xidToken = json_decode(base64_decode(str_replace('_', '/', str_replace('-','+',explode('.', $value)[1]))));
+    
+                    $_SESSION['oauth2Name'] = $xidToken->sub;
+                    $GLOBALS['log']->debug("User in x-id-token: " . $_SESSION['oauth2Name']);
+        
+                    SugarApplication::redirect('index.php?action=Login&module=Users&oauth2Name=' . $xidToken->sub);
+                    die();                    
+                    //break;
+                }
+            }            
+
+            $GLOBALS['log']->debug("SugarApplication 5");
+
             SugarApplication::redirect('index.php?action=Login&module=Users');
             die();
         }
@@ -599,11 +647,15 @@ class SugarApplication
                     self::setCookie('PHPSESSID', '', time() - 42000, '/');
                 }
                 sugar_cleanup(false);
+
+                $GLOBALS['log']->debug("session destroy !!");
+
                 session_destroy();
                 exit('Not a valid entry method');
             }
         } else {
             if (can_start_session()) {
+                $GLOBALS['log']->debug("session start !!");
                 session_start();
             }
         }

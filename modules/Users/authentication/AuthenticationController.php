@@ -133,6 +133,8 @@ class AuthenticationController
         $_SESSION['loginAttempts'] = (isset($_SESSION['loginAttempts']))? $_SESSION['loginAttempts'] + 1: 1;
         unset($GLOBALS['login_error']);
 
+        $GLOBALS['log']->debug("Auth ctrl loggedIn ? " . (int)$this->loggedIn);
+
         if ($this->loggedIn) {
             return $this->loginSuccess;
         }
@@ -140,6 +142,9 @@ class AuthenticationController
 
         $this->loginSuccess = $this->authController->loginAuthenticate($username, $password, false, $PARAMS);
         $this->loggedIn = true;
+
+        $GLOBALS['log']->debug("Auth ctrl loggedSuccess ? " . (int)$this->loginSuccess);
+        $GLOBALS['log']->debug("Auth ctrl loggedIn second ? " . (int)$this->loggedIn);
 
         if ($this->loginSuccess) {
             //Ensure the user is authorized
@@ -169,7 +174,7 @@ class AuthenticationController
                 header("Location: index.php?module=Configurator&action=AdminWizard");
                 sugar_cleanup(true);
             }
-
+            
             $ut = $GLOBALS['current_user']->getPreference('ut');
             $checkTimeZone = true;
             if (is_array($PARAMS) && !empty($PARAMS) && isset($PARAMS['passwordEncrypted'])) {
@@ -179,6 +184,7 @@ class AuthenticationController
                 $GLOBALS['module'] = 'Users';
                 $GLOBALS['action'] = 'Wizard';
                 ob_clean();
+                $GLOBALS['log']->debug("In wizard ut null !!");
                 header("Location: index.php?module=Users&action=Wizard");
                 sugar_cleanup(true);
             }

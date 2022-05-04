@@ -42,9 +42,16 @@ if (!defined('sugarEntry')) {
     define('sugarEntry', true);
 }
 
+//require_once 'include/SugarObjects/SugarConfig.php';
+//require_once 'include/SugarLogger/LoggerManager.php';
+
+
 include 'include/MVC/preDispatch.php';
 $startTime = microtime(true);
 require_once 'include/entryPoint.php';
+
+$GLOBALS['log']->debug("index.php sess unique key " . $_SESSION['unique_key']);
+
 ob_start();
 require_once 'include/MVC/SugarApplication.php';
 $app = new SugarApplication();
