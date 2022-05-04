@@ -81,6 +81,7 @@ class SugarApplication
         if (!empty($_REQUEST['module'])) {
             $module = $_REQUEST['module'];
         }
+
         insert_charset_header();
         $this->setupPrint();
         $this->controller = ControllerFactory::getController($module);
@@ -99,6 +100,7 @@ class SugarApplication
         $this->loadGlobals();
         $this->setupResourceManagement($module);
         $this->controller->execute();
+
         sugar_cleanup();
     }
 
@@ -113,7 +115,8 @@ class SugarApplication
         $server_unique_key = (isset($sugar_config['unique_key'])) ? $sugar_config['unique_key'] : '';
         $allowed_actions = (!empty($this->controller->allowed_actions)) ? $this->controller->allowed_actions : $allowed_actions = array('Authenticate', 'Login', 'LoggedOut');
 
-        $authController = new AuthenticationController();
+        // Modif T817332
+        $authController = new AuthenticationController("Oauth2TokenAuthenticate");
 
         if (($user_unique_key != $server_unique_key) && (!in_array($this->controller->action, $allowed_actions)) &&
                 (!isset($_SESSION['login_error']))) {
@@ -158,6 +161,19 @@ class SugarApplication
             }//fi
         } elseif (!($this->controller->module == 'Users' && in_array($this->controller->action, $allowed_actions))) {
             session_destroy();
+
+            foreach (apache_request_headers() as $name => $value) {
+                if ($name == "x-id-token") {            
+                    $xidToken = json_decode(base64_decode(str_replace('_', '/', str_replace('-','+',explode('.', $value)[1]))));
+    
+                    $_SESSION['oauth2Name'] = $xidToken->sub;
+        
+                    SugarApplication::redirect('index.php?action=Login&module=Users&oauth2Name=' . $xidToken->sub);
+                    die();                    
+                    //break;
+                }
+            }            
+
             SugarApplication::redirect('index.php?action=Login&module=Users');
             die();
         }
@@ -599,6 +615,7 @@ class SugarApplication
                     self::setCookie('PHPSESSID', '', time() - 42000, '/');
                 }
                 sugar_cleanup(false);
+
                 session_destroy();
                 exit('Not a valid entry method');
             }

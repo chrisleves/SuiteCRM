@@ -169,7 +169,7 @@ class AuthenticationController
                 header("Location: index.php?module=Configurator&action=AdminWizard");
                 sugar_cleanup(true);
             }
-
+            
             $ut = $GLOBALS['current_user']->getPreference('ut');
             $checkTimeZone = true;
             if (is_array($PARAMS) && !empty($PARAMS) && isset($PARAMS['passwordEncrypted'])) {
