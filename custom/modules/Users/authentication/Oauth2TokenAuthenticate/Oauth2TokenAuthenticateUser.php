@@ -45,7 +45,7 @@ if (!defined('sugarEntry') || !sugarEntry) {
 require_once __DIR__ . '/../../../../../modules/Users/authentication/SugarAuthenticate/SugarAuthenticateUser.php';
 
 /**
- * Class SAML2AuthenticateUser
+ * Class Oauth2TokenAuthenticateUser
  */
 class Oauth2TokenAuthenticateUser extends SugarAuthenticateUser
 {
@@ -62,22 +62,9 @@ class Oauth2TokenAuthenticateUser extends SugarAuthenticateUser
      */
     public function authenticateUser($name, $password, $fallback = false, $checkPasswordMD5 = false)
     {
-        /*
-        if (!isset($_SESSION['samlNameId']) || $_SESSION['samlNameId'] !== $name) {
-            return '';
-        }*/
-
         $row = User::findUserPassword($name, null,
             "(portal_only IS NULL OR portal_only !='1') AND (is_group IS NULL OR is_group !='1') AND status !='Inactive'",
             $checkPasswordMD5);
-
-        // set the ID in the seed user.  This can be used for retrieving the full user record later
-        //if it's falling back on Sugar Authentication after the login failed on an external authentication return empty if the user has external_auth_disabled for them
-        /*
-        if (empty($row) || empty($row['external_auth_only'])) {
-            return '';
-        }
-        */
 
         return $row['id'];
     }
