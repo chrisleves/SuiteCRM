@@ -39,5 +39,6 @@
  */
 
 $mod_strings = array(
-    'LBL_NOT_FOUND' => 'User REALLY not found....',
+    'LBL_NOT_FOUND' => 'User not found. Please contact a BMT admin to be added.',
+    'LBL_RETURN_LOGIN' => 'Admin login',
 ); // END STRINGS DEFS
