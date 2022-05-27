@@ -55,6 +55,8 @@ class Oauth2TokenAuthenticate extends SugarAuthenticate
 
     public function pre_login()
     {
+        $GLOBALS['log']->debug('session oauth2Name: ' .  $_SESSION['oauth2Name']);
+
         if (isset($_REQUEST['oauth2Name']) && !empty($_REQUEST['oauth2Name'])) {
             $_SESSION['oauth2Name'] = $_REQUEST['oauth2Name'];
             
@@ -67,9 +69,11 @@ class Oauth2TokenAuthenticate extends SugarAuthenticate
         if (isset($_SESSION['oauth2Name']) && !empty($_SESSION['oauth2Name'])) {
             if ($this->userAuthenticate->loadUserOnLogin($_SESSION['oauth2Name'], null)) {
                 global $authController;
+                $GLOBALS['log']->debug('redirectToLogin login');
                 $authController->login($_SESSION['oauth2Name'], null);
             }
-            SugarApplication::redirect('index.php?module=Users&action=LoggedOut');
+            $GLOBALS['log']->debug('redirectToLogin logged out');
+            SugarApplication::redirect('index.php?module=Users&action=UserNotFound');
         } else {
             return false;
         }

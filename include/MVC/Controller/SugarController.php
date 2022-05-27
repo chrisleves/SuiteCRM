@@ -1057,6 +1057,8 @@ class SugarController
             $action = 'list';
         }
 
+        $GLOBALS['log']->debug('Trying to find Module:' . $this->module . ' using file: ' . $file);
+
         if ((file_exists('modules/' . $this->module . '/' . $file . '.php')
                 && !file_exists('modules/' . $this->module . '/views/view.' . $action . '.php'))
             || (file_exists('custom/modules/' . $this->module . '/' . $file . '.php')

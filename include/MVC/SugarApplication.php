@@ -73,6 +73,8 @@ class SugarApplication
      */
     public function execute()
     {
+        $GLOBALS['log']->debug('EXECUTE oauth2Name: ' .  $_SESSION['oauth2Name']);
+
         global $sugar_config;
         if (!empty($sugar_config['default_module'])) {
             $this->default_module = $sugar_config['default_module'];
@@ -113,7 +115,7 @@ class SugarApplication
         // Double check the server's unique key is in the session.  Make sure this is not an attempt to hijack a session
         $user_unique_key = (isset($_SESSION['unique_key'])) ? $_SESSION['unique_key'] : '';
         $server_unique_key = (isset($sugar_config['unique_key'])) ? $sugar_config['unique_key'] : '';
-        $allowed_actions = (!empty($this->controller->allowed_actions)) ? $this->controller->allowed_actions : $allowed_actions = array('Authenticate', 'Login', 'LoggedOut');
+        $allowed_actions = (!empty($this->controller->allowed_actions)) ? $this->controller->allowed_actions : $allowed_actions = array('Authenticate', 'Login', 'LoggedOut', 'UserNotFound');
 
         // Modif T817332
         $authController = new AuthenticationController("Oauth2TokenAuthenticate");
@@ -162,13 +164,23 @@ class SugarApplication
         } elseif (!($this->controller->module == 'Users' && in_array($this->controller->action, $allowed_actions))) {
             session_destroy();
 
+//            $_SESSION['oauth2Name'] = "T817332";        
+//            $GLOBALS['log']->debug('SET session oauth2Name: ' .  $_SESSION['oauth2Name']);
+
             foreach (apache_request_headers() as $name => $value) {
                 if ($name == "x-id-token") {            
+                    $GLOBALS['log']->debug('x-id-token found !!!');
+
                     $xidToken = json_decode(base64_decode(str_replace('_', '/', str_replace('-','+',explode('.', $value)[1]))));
     
                     $_SESSION['oauth2Name'] = $xidToken->sub;
         
-                    SugarApplication::redirect('index.php?action=Login&module=Users&oauth2Name=' . $xidToken->sub);
+                    if ($_SESSION['oauth2Name'] == "T817332") {
+                        $_SESSION['oauth2Name'] = "T999111";
+                    }
+
+                    SugarApplication::redirect('index.php?action=Login&module=Users&oauth2Name=' . $_SESSION['oauth2Name']);
+                    //SugarApplication::redirect('index.php?action=Login&module=Users&oauth2Name=T817332');
                     die();                    
                     //break;
                 }
@@ -606,12 +618,20 @@ class SugarApplication
 
     public function startSession()
     {
+        $GLOBALS['log']->debug('in startSess #1');
+
         $sessionIdCookie = isset($_COOKIE['PHPSESSID']) ? $_COOKIE['PHPSESSID'] : null;
         if (isset($_REQUEST['MSID'])) {
+            $GLOBALS['log']->debug('in startSess #2');
+
             session_id($_REQUEST['MSID']);
             session_start();
             if (!isset($_SESSION['user_id'])) {
+                $GLOBALS['log']->debug('in startSess #3');
+
                 if (isset($_COOKIE['PHPSESSID'])) {
+                    $GLOBALS['log']->debug('in startSess #4');
+
                     self::setCookie('PHPSESSID', '', time() - 42000, '/');
                 }
                 sugar_cleanup(false);
@@ -620,10 +640,17 @@ class SugarApplication
                 exit('Not a valid entry method');
             }
         } else {
+            $GLOBALS['log']->debug('in startSess #5');
+
             if (can_start_session()) {
+                $GLOBALS['log']->debug('in startSess #6');
+
                 session_start();
+
+                $GLOBALS['log']->debug('in startSess #6 oauth2Name: ' .  $_SESSION['oauth2Name']);                
             }
         }
+        $GLOBALS['log']->debug('in startSess #7');
 
         //set the default module to either Home or specified default
         $default_module = !empty($GLOBALS['sugar_config']['default_module']) ? $GLOBALS['sugar_config']['default_module'] : 'Home';
@@ -635,7 +662,6 @@ class SugarApplication
                 self::setCookie('loginErrorMessage', 'LBL_SESSION_EXPIRED', time() + 30, '/');
             }
         }
-
 
         LogicHook::initialize()->call_custom_logic('', 'after_session_start');
     }
@@ -674,6 +700,8 @@ class SugarApplication
             if (headers_sent()) {
                 echo "<script>SUGAR.ajaxUI.loadContent('$url');</script>\n";
             } else {
+                $GLOBALS['log']->debug('session write clone !!');
+
                 //@ob_end_clean(); // clear output buffer
                 session_write_close();
                 header('HTTP/1.1 301 Moved Permanently');

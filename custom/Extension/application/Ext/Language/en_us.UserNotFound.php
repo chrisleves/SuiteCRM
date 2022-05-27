@@ -5,7 +5,7 @@
  * SugarCRM, Inc. Copyright (C) 2004-2013 SugarCRM Inc.
  *
  * SuiteCRM is an extension to SugarCRM Community Edition developed by SalesAgility Ltd.
- * Copyright (C) 2011 - 2018 SalesAgility Ltd.
+ * Copyright (C) 2011 - 2019 SalesAgility Ltd.
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Affero General Public License version 3 as published by the
@@ -38,57 +38,4 @@
  * display the words "Powered by SugarCRM" and "Supercharged by SuiteCRM".
  */
 
-if (!defined('sugarEntry') || !sugarEntry) {
-    die('Not A Valid Entry Point');
-}
-
-require_once __DIR__ . '/../../../../../modules/Users/authentication/SugarAuthenticate/SugarAuthenticateUser.php';
-
-/**
- * Class Oauth2TokenAuthenticateUser
- */
-class Oauth2TokenAuthenticateUser extends SugarAuthenticateUser
-{
-
-    /**
-     * Does the actual authentication of the user and returns an id that will be used
-     * to load the current user (loadUserOnSession)
-     *
-     * @param string $name 
-     * @param string $password
-     * @param bool $fallback - is this authentication a fallback from a failed authentication
-     * @param bool $checkPasswordMD5 use md5 check for user_hash before return the user data (SAML2 default is false)
-     * @return string id - used for loading the user
-     */
-    public function authenticateUser($name, $password, $fallback = false, $checkPasswordMD5 = false)
-    {
-        $row = User::findUserPassword($name, null,
-            "(portal_only IS NULL OR portal_only !='1') AND (is_group IS NULL OR is_group !='1') AND status = 'Active'",
-            $checkPasswordMD5);
-
-        return $row['id'];
-    }
-
-    /**
-     * this is called when a user logs in
-     *
-     * @param string $name
-     * @param string $password
-     * @param bool $fallback - is this authentication a fallback from a failed authentication
-     * @param array $PARAMS
-     * @return boolean
-     */
-    public function loadUserOnLogin($name, $password, $fallback = false, $PARAMS = array())
-    {
-        $GLOBALS['log']->debug('Starting user load for ' . $name);
-        $user_id = $this->authenticateUser($name, null, $fallback);
-        if (empty($user_id)) {
-            $GLOBALS['log']->fatal('SECURITY: User authentication for ' . $name . ' failed');
-
-            return false;
-        }
-        $this->loadUserOnSession($user_id);
-
-        return true;
-    }
-}
+$mod_strings['LBL_NOT_FOUND'] = 'Not found !!!';
