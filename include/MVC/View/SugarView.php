@@ -321,6 +321,7 @@ class SugarView
     {
     }
 
+
     /**
      * trackView
      */
@@ -378,6 +379,8 @@ class SugarView
         global $mod_strings;
         global $current_language;
 
+        echo '<script type="text/javascript" src="' . getJSPath('modules/Users/login.js') . '"></script>';
+        
         $GLOBALS['app']->headerDisplayed = true;
 
         $themeObject = SugarThemeRegistry::current();
@@ -391,6 +394,30 @@ class SugarView
         $ss->assign("MODULE_NAME", $this->module);
         $ss->assign("langHeader", get_language_header());
 
+        global $current_language;
+        global $mod_strings;
+        global $app_strings;
+        global $app_list_strings;
+        
+        // Adding
+        if (isset($_REQUEST['login_language'])) {
+            $lang = $_REQUEST['login_language'];
+            $_REQUEST['ck_login_language_20'] = $lang;
+            $current_language = $lang;
+            $_SESSION['authenticated_user_language'] = $lang;
+            $mod_strings = return_module_language($lang, 'Users');
+            $app_strings = return_application_language($lang);
+        }        
+        if (isset($_REQUEST['ck_login_language_20'])) {
+            $display_language = $_REQUEST['ck_login_language_20'];
+        } else {
+            $display_language = $sugar_config['default_language'];
+        }        
+        $the_languages = get_languages();
+        if (count($the_languages) > 1) {
+            $ss->assign('SELECT_LANGUAGE', get_select_options_with_id($the_languages, $display_language));
+        }
+        // END Adding
 
         // set ab testing if exists
         $testing = (isset($_REQUEST["testing"]) ? $_REQUEST['testing'] : "a");

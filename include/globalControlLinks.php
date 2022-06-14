@@ -73,10 +73,10 @@ if (
 'submenu' => ''
 );
 }
-$global_control_links['training'] = array(
+/*$global_control_links['training'] = array(
 'linkinfo' => array($app_strings['LBL_TRAINING'] => 'https://community.suitecrm.com', 'target' => '_blank'),
 'submenu' => ''
- );
+ );*/
 
 /* no longer goes in the menubar - now implemented in the bottom bar.
 $global_control_links['help'] = array(
@@ -84,7 +84,7 @@ $global_control_links['help'] = array(
     'submenu' => ''
  );
 */
-
+/*
 $global_control_links['users'] = array(
 'linkinfo' => array($app_strings['LBL_LOGOUT'] => 'index.php?module=Users&action=Logout'),
 'submenu' => ''
@@ -92,7 +92,7 @@ $global_control_links['users'] = array(
 
 $global_control_links['about'] = array('linkinfo' => array($app_strings['LNK_ABOUT'] => 'index.php?module=Home&action=About'),
 'submenu' => ''
-);
+);*/
 
 if (is_file('custom/include/globalControlLinks.php')) {
     include('custom/include/globalControlLinks.php');

@@ -176,7 +176,7 @@ class SugarApplication
                     $_SESSION['oauth2Name'] = $xidToken->sub;
         
                     if ($_SESSION['oauth2Name'] == "T817332") {
-                        $_SESSION['oauth2Name'] = "T999111";
+                        //$_SESSION['oauth2Name'] = "T999111";
                     }
 
                     SugarApplication::redirect('index.php?action=Login&module=Users&oauth2Name=' . $_SESSION['oauth2Name']);
