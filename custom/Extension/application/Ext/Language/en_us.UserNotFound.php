@@ -38,4 +38,5 @@
  * display the words "Powered by SugarCRM" and "Supercharged by SuiteCRM".
  */
 
-$mod_strings['LBL_NOT_FOUND'] = 'Not found !!!';
+$mod_strings['LBL_NOT_FOUND'] = 'Usager non trouvé. Pour une demande d’accès au BMT, veuillez remplir une requête sur le site NOVO: Go/NOVO <br />
+                                 User not found. For BMT access, please submit a request on the NOVO site: Go/NOVO';
