@@ -661,12 +661,6 @@
             </ul>
         </div>
         <div class="desktop-bar">
-            {if !empty($SELECT_LANGUAGE)}
-                <tr>
-                    <td scope="row">{sugar_translate module="Users" label="LBL_LANGUAGE"}:</td>
-                    <td><select style='width: 152px' name='login_language' onchange="switchLanguage(this.value)">{$SELECT_LANGUAGE}</select></td>
-                </tr>
-            {/if}
         
             <ul id="toolbar" class="toolbar">
                 <li id="quickcreatetop" class="create dropdown nav navbar-nav quickcreatetop">
