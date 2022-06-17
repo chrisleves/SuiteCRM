@@ -410,7 +410,11 @@ class SugarView
         }        
         if (isset($_REQUEST['ck_login_language_20'])) {
             $display_language = $_REQUEST['ck_login_language_20'];
-        } else {
+        } 
+        else if (isset($_SESSION['authenticated_user_language'])) {
+            $display_language = $_SESSION['authenticated_user_language'];
+        }
+        else {
             $display_language = $sugar_config['default_language'];
         }        
         $the_languages = get_languages();
