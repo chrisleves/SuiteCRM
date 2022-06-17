@@ -48,22 +48,31 @@
                     <table cellpadding="0" cellspacing="0" border="0" align="center" width="100%">
                         <tr>
                             <td align="center">
-                                <b>{sugar_translate module="Users" label="LBL_NOT_FOUND"}</b>
+                                <b>{sugar_translate module="Users" label="LBL_NOT_FOUND"}</b>                                
                             </td>
                         </tr>
+
                         <tr>
                             <td align="center">
-                               <a href="{$NOVO_URL}">{sugar_translate module="Users" label="LBL_RETURN_LOGIN"}</a>
+                               &nbsp;
                             </td>
                         </tr>
+                        
                         <tr>
                             <td align="center">
                                 <b>{sugar_translate module="Users" label="LBL_NOT_FOUND_FR"}</b>
                             </td>
                         </tr>
+
                         <tr>
                             <td align="center">
-                               <a href="{$NOVO_URL}">{sugar_translate module="Users" label="LBL_RETURN_LOGIN"}</a>
+                               &nbsp;
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td align="center">
+                               <a href="{sugar_translate module="Users" label="NOVO_URL"}">{sugar_translate module="Users" label="LBL_RETURN_LOGIN"}</a>
                             </td>
                         </tr>
                     </table>

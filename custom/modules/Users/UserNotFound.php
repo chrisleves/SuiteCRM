@@ -43,6 +43,7 @@ if (!defined('sugarEntry') || !sugarEntry) {
 
 $GLOBALS['log']->debug('in User not found');
 
+
 if (isset($_SESSION['authenticated_user_id'])) {
     ob_clean();
     header('Location: ' . $GLOBALS['app']->getLoginRedirect());
@@ -53,7 +54,6 @@ if (isset($_SESSION['authenticated_user_id'])) {
 // display the logged out screen
 $smarty = new Sugar_Smarty();
 $smarty->assign(array(
-    'LOGIN_URL'  => 'index.php?action=Login&module=Users',
     'STYLESHEET' => getJSPath('modules/Users/login.css'),
 ));
 $smarty->display('custom/modules/Users/UserNotFound.tpl');
