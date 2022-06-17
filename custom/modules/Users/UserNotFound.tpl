@@ -56,6 +56,16 @@
                                <a href="{$LOGIN_URL}">{sugar_translate module="Users" label="LBL_RETURN_LOGIN"}</a>
                             </td>
                         </tr>
+                        <tr>
+                            <td align="center">
+                                <b>{sugar_translate module="Users" label="LBL_NOT_FOUND_FR"}</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center">
+                               <a href="{$LOGIN_URL}">{sugar_translate module="Users" label="LBL_RETURN_LOGIN"}</a>
+                            </td>
+                        </tr>
                     </table>
                 </div>
             </div>
