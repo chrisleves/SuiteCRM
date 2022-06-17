@@ -661,8 +661,14 @@
             </ul>
         </div>
         <div class="desktop-bar">
-        
             <ul id="toolbar" class="toolbar">
+                {if !empty($SELECT_LANGUAGE)}
+                   <li>
+                      {sugar_translate module="Users" label="LBL_LANGUAGE"}:
+                      <select style='width: 152px' name='login_language' onchange="switchLanguage(this.value)">{$SELECT_LANGUAGE}</select>
+                   </li>
+                {/if}
+
                 <li id="quickcreatetop" class="create dropdown nav navbar-nav quickcreatetop">
                     <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         {$APP.LBL_CREATE_BUTTON_LABEL}<span class="suitepicon suitepicon-action-caret"></span>
