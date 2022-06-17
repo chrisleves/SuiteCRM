@@ -38,6 +38,14 @@
  * display the words "Powered by SugarCRM" and "Supercharged by SuiteCRM".
  */
 *}
+<script type='text/javascript'>
+   function switchLanguageNew(lang) {
+       let urlParams = new URLSearchParams(window.location.search);
+       
+       urlParams.set('login_language', lang);
+   }
+</script>
+
 <!--Start Responsive Top Navigation Menu -->
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
@@ -665,7 +673,7 @@
                 {if !empty($SELECT_LANGUAGE)}
                    <li>
                       {sugar_translate module="Users" label="LBL_LANGUAGE"}:
-                      <select style='width: 152px' name='login_language' onchange="switchLanguage(this.value)">{$SELECT_LANGUAGE}</select>
+                      <select style='width: 152px' name='login_language' onchange="switchLanguageNew(this.value)">{$SELECT_LANGUAGE}</select>
                    </li>
                 {/if}
 
