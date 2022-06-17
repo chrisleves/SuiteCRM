@@ -38,13 +38,15 @@
  * display the words "Powered by SugarCRM" and "Supercharged by SuiteCRM".
  */
 *}
+{literal}
 <script type='text/javascript'>
    function switchLanguageNew(lang) {
        let urlParams = new URLSearchParams(window.location.search);
-       
        urlParams.set('login_language', lang);
+       window.location.search = urlParams.toString();
    }
 </script>
+{/literal}
 
 <!--Start Responsive Top Navigation Menu -->
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
