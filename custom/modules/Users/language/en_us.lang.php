@@ -40,7 +40,7 @@
 
 $mod_strings = array(
     'LBL_NOT_FOUND' => 'User not found. For BMT access, please submit a request on the NOVO site : ',
-    'LBL_NOT_FOUND_FR' => 'Usager non trouvé. Pour une demande d’accès au BMT, veuillez remplir une requête sur le site NOVO : '
+    'LBL_NOT_FOUND_FR' => 'Usager non trouvé. Pour une demande d’accès au BMT, veuillez remplir une requête sur le site NOVO : ',
     'LBL_RETURN_LOGIN' => 'Go/NOVO',
-    'NOVO_URL' => 'https://go.telus.com/NOVO'
+    'NOVO_URL' => 'https://go.telus.com/NOVO',
 ); // END STRINGS DEFS
