@@ -380,6 +380,7 @@ class SugarView
         global $current_language;
 
 //        echo '<script type="text/javascript" src="' . getJSPath('modules/Users/login.js') . '"></script>';
+// yeah
         
         $GLOBALS['app']->headerDisplayed = true;
 
