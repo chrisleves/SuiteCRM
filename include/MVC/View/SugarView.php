@@ -379,7 +379,8 @@ class SugarView
         global $mod_strings;
         global $current_language;
 
-        echo '<script type="text/javascript" src="' . getJSPath('modules/Users/login.js') . '"></script>';
+//        echo '<script type="text/javascript" src="' . getJSPath('modules/Users/login.js') . '"></script>';
+// yeah
         
         $GLOBALS['app']->headerDisplayed = true;
 
@@ -399,8 +400,7 @@ class SugarView
         global $app_strings;
         global $app_list_strings;
         
-        // Adding
-        /*
+        // Adding        
         if (isset($_REQUEST['login_language'])) {
             $lang = $_REQUEST['login_language'];
             $_REQUEST['ck_login_language_20'] = $lang;
@@ -411,14 +411,17 @@ class SugarView
         }        
         if (isset($_REQUEST['ck_login_language_20'])) {
             $display_language = $_REQUEST['ck_login_language_20'];
-        } else {
+        } 
+        else if (isset($_SESSION['authenticated_user_language'])) {
+            $display_language = $_SESSION['authenticated_user_language'];
+        }
+        else {
             $display_language = $sugar_config['default_language'];
         }        
         $the_languages = get_languages();
         if (count($the_languages) > 1) {
             $ss->assign('SELECT_LANGUAGE', get_select_options_with_id($the_languages, $display_language));
-        }
-        */
+        }        
         // END Adding
 
         // set ab testing if exists
