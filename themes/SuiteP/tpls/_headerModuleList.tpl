@@ -498,7 +498,7 @@
                                     <ul class="dropdown-menu" role="menu">
                                         <li><a href="index.php?module=Accounts&action=EditView&return_module=Accounts&return_action=DetailView">{$APP.LBL_QUICK_CREATE}{sugar_translate module="Accounts" label="LBL_MODULE_NAME"}</a></li>
                                         <li><a href="index.php?module=gidgo_BidGovernanceOverlay&action=EditView&return_module=gidgo_BidGovernanceOverlay&return_action=DetailView">{$APP.LBL_QUICK_CREATE}{sugar_translate module="BID GOVERNANCE OVERLAY" label="LBL_MODULE_NAME"}</a></li>
-                                        <li><a href="index.php?module=bibib_Bid&action=EditView&return_module=bibib_Bid&return_action=DetailView">{$APP.LBL_QUICK_CREATE}{sugar_translate module="Bid" label="LBL_MODULE_NAME"}</a></li>
+                                        <li><a href="index.php?module=bids_Bids&action=EditView&return_module=bids_Bids&return_action=DetailView">{$APP.LBL_QUICK_CREATE}{sugar_translate module="Bid" label="LBL_MODULE_NAME"}</a></li>
                                     </ul>
                 </li>
                 <li id="" class="dropdown nav navbar-nav navbar-search">
@@ -583,7 +583,7 @@
                                       <ul class="dropdown-menu" role="menu">
                                           <li><a href="index.php?module=Accounts&action=EditView&return_module=Accounts&return_action=DetailView">{$APP.LBL_QUICK_CREATE}{sugar_translate module="Accounts" label="LBL_MODULE_NAME"}</a></li>
                                           <li><a href="index.php?module=gidgo_BidGovernanceOverlay&action=EditView&return_module=gidgo_BidGovernanceOverlay&return_action=DetailView">{$APP.LBL_QUICK_CREATE}{sugar_translate module="BID GOVERNANCE OVERLAY" label="LBL_MODULE_NAME"}</a></li>
-                                          <li><a href="index.php?module=bibib_Bid&action=EditView&return_module=bibib_Bid&return_action=DetailView">{$APP.LBL_QUICK_CREATE}{sugar_translate module="Bid" label="LBL_MODULE_NAME"}</a></li>
+                                          <li><a href="index.php?module=bids_Bids&action=EditView&return_module=bids_Bids&return_action=DetailView">{$APP.LBL_QUICK_CREATE}{sugar_translate module="Bid" label="LBL_MODULE_NAME"}</a></li>
                                       </ul>
                 </li>
                 <li id="" class="dropdown nav navbar-nav navbar-search">
@@ -670,7 +670,7 @@
                                        <ul class="dropdown-menu" role="menu">
                                            <li><a href="index.php?module=Accounts&action=EditView&return_module=Accounts&return_action=DetailView">{$APP.LBL_QUICK_CREATE}{sugar_translate module="Accounts" label="LBL_MODULE_NAME"}</a></li>
                                            <li><a href="index.php?module=gidgo_BidGovernanceOverlay&action=EditView&return_module=gidgo_BidGovernanceOverlay&return_action=DetailView">{$APP.LBL_QUICK_CREATE}{sugar_translate module="BID GOVERNANCE OVERLAY" label="LBL_MODULE_NAME"}</a></li>
-                                           <li><a href="index.php?module=bibib_Bid&action=EditView&return_module=bibib_Bid&return_action=DetailView">{$APP.LBL_QUICK_CREATE}{sugar_translate module="Bid" label="LBL_MODULE_NAME"}</a></li>
+                                           <li><a href="index.php?module=bids_Bids&action=EditView&return_module=bids_Bids&return_action=DetailView">{$APP.LBL_QUICK_CREATE}{sugar_translate module="Bid" label="LBL_MODULE_NAME"}</a></li>
                                        </ul>
                 </li>
                 <li id="" class="dropdown nav navbar-nav navbar-search">
